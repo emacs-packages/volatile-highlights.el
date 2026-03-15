@@ -43,6 +43,8 @@
 ;; - replacements: highlight results of `query-replace' and `replace-string'
 ;; - transposition commands: highlight swapped text from transpose-* and
 ;;   transpose-regions operations
+;; - duplicate commands: highlight duplicated text from duplicate-*
+;;   operations
 ;; - definitions: Emacs 25.1+ uses xref; older Emacs use find-tag
 ;; - occur: Emacs < 28 only (Emacs 28+ has built-in occur highlighting)
 ;; - non-incremental search commands
@@ -1030,9 +1032,19 @@ for NAME."
 
 (vhl/define-extension 'transpose 'transpose-chars 'transpose-words
                       'transpose-lines 'transpose-sexps
+                      'transpose-sentences 'transpose-paragraphs
                       'transpose-regions)
 (vhl/install-extension 'transpose)
 
+
+;;-----------------------------------------------------------------------------
+;; Extension for supporting duplicate commands.
+;;   -- Put volatile highlights on the text duplicated by
+;;      duplicate-* utilities.
+;;-----------------------------------------------------------------------------
+
+(vhl/define-extension 'duplicate 'duplicate-line 'duplicate-dwim)
+(vhl/install-extension 'duplicate (version< emacs-version "29"))
 
 
 ;;-----------------------------------------------------------------------------
